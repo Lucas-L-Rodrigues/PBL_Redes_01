@@ -1,4 +1,12 @@
 import socket
+import json
+
+def logar():  # Vai receber as credenciais e retornar um "mini dicionacio" com as informações
+    login = input("digite seu login: ")
+    senha = input("digite sua senha: ")
+
+    return {'login':login, 'senha': senha}
+
 
 HOST = '127.0.0.1' # Endereço padrao do servidor
 PORT = 8000      # Porta inicial
@@ -20,7 +28,16 @@ tcp.connect(servidor)   # realizando a conexao
 
 mensagem = input("\nQual mensagem que voce quer enviar?\nDigite SAIR para sair\n\n")
 while mensagem != "SAIR":
-    tcp.send(str.encode(mensagem)) # envia a mensagem
-    mensagem = input ("Qual eh a proxima mensagem?\nDigite SAIR para sair\n\n")
+    
+    #tcp.send(str.encode(mensagem)) # envia a mensagem
+    #mensagem = input ("Qual eh a proxima mensagem?\nDigite SAIR para sair\n\n")
+    
+    credenciais = logar()
+    
+    servidor.sendall(jason.dumps(credenciais).encode('utf-8'))
+
+    confirmacao = servidor.recv(1024).decode('utf-8')
+
+    print(confirmacao)
 
 tcp.close() # finalizando a conexao
