@@ -26,7 +26,7 @@ servidor = (HOST, PORT) # passando o servidor e a porta a se conectar como uma t
 tcp.connect(servidor)   # realizando a conexao
 
 
-mensagem = input("\nQual mensagem que voce quer enviar?\nDigite SAIR para sair\n\n")
+mensagem = input("Digite SAIR para sair\n\n")
 while mensagem != "SAIR":
     
     #tcp.send(str.encode(mensagem)) # envia a mensagem
@@ -34,10 +34,11 @@ while mensagem != "SAIR":
     
     credenciais = logar()
     
-    servidor.sendall(jason.dumps(credenciais).encode('utf-8'))
+    tcp.sendall(json.dumps(credenciais).encode('utf-8'))
 
     confirmacao = servidor.recv(1024).decode('utf-8')
 
     print(confirmacao)
-
+    
+    mensagem = input("Gostaria de SAIR?\n")
 tcp.close() # finalizando a conexao
