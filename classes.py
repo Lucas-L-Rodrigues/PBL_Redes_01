@@ -1,7 +1,7 @@
 #from dataclasses import dataclass
 from datetime import date
 
-class Compra:
+class Passagem:
     def __init__(self, dataCompra, reserva, cidadeSaida, cidadeChegada, poltrona, estaPago, estaCancelado):
         self.dataCompra    = dataCompra
         self.reserva       = reserva
@@ -23,4 +23,13 @@ class Compra:
     def realizarCancelamento(self):
         
         return
-    
+
+class Usuario:
+    def __init__(self, login, senha):
+        self.login = login
+        self.senha = senha
+        self.passagens = []
+
+
+    def adicionarPassagem(self, passagem):
+        self.passagens.append(passagem)
