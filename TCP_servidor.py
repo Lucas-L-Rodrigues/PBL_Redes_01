@@ -2,29 +2,39 @@ import socket
 import threading
 import json
 
-def verificarLogin(login, senha, usuarios):
-    for usuario in usuarios:
-        if (usuario['login']==login and usuario['senha']==senha):
-            return True
+def carregarUsuarios():
+    with open('usuarios.json', 'r') as f:
+        return json.load(f)
+
+def verificarLogin(usuario, bancoDeUsuarios):
+    login = usuario.get('login')
+    senha = usuario.get('senha')
+
+    if (login in bancoDeUsuarios) and (bancoDeUsuarios[login] == senha):
+        print('Logado com Sucesso')
+        return True
+    else:
+        print('Login falhou')
+
     return False
 
-def novoCliente(conn, addr):
+def novoCliente(conn, addr, bancoDeUsuarios):
     print(f'Nova conexão com {addr}')
     
-    while True:
-        try:
-            credenciais = conn.recv(1024)  # Recebe dados
-            if not credenciais:
-                break               # Sai do loop se o cliente não enviar nada, no caso digitando SAIR no TCP_Cliente
-
-            print(f'{addr} mandou: {credenciais.decode()}\n')   # Mensagem de confirmação
-            conn.sendall(b'O servidor recebeu as informacoes.')  # Envia resposta ao cliente
-
-        except ConnectionResetError:
-            break                       # Sai do loop se a conexão for resetada
-
-    conn.close()                        # Fecha a conexão ao sair do loop
-    print(f'Conexão encerrada: {addr}')
+    try:
+        while True:
+            credenciaisRecebidas = conn.recv(1024).decode('utf-8')
+            
+            if not credenciaisRecebidas:
+                break
+            else:
+                credenciais = json.loads(credenciaisRecebidas)
+                estaLogado = verificarLogin(credenciais, bancoDeUsuarios)
+            
+            if estaLogado:
+                printf(f'\nresto das operações\n')
+    finally:
+        conn.close()             
 
 # NÃO USADA
 def conectar_com_cliente(con, cliente):                     # Função para se comunicar com o cliente para troca de mensagens
@@ -51,14 +61,14 @@ origem = (HOST, PORT)  # essa tupla "guarda" a informacao do servidor em que se 
 tcp.bind(origem)       # Ligando o socket a origem
 tcp.listen(10)         # Escutando até 10 conexões em fila
 
-tcp.listen(10)         # Escutando até 10 conexões em fila
+bancoDeUsuarios = carregarUsuarios()
 
 # Aqui eh a execucao do programa propriamente dita
 while True:
     con, cliente = tcp.accept()                     # Aceita uma nova conexão com "cliente"
     print(f"Nova conexão aceita de {cliente}")      # Mensagem para feedback
 
-    thread = threading.Thread(target=novoCliente, args=(con, cliente))          # Criando uma nova thread para a conexao com "cliente"
+    thread = threading.Thread(target=novoCliente, args=(con, cliente, bancoDeUsuarios))          # Criando uma nova thread para a conexao com "cliente"
     thread.start()                                                              # Iniciando a thread
 
     print(f'Número de conexões ativas: {threading.active_count() - 1}')         # Mostra o número de threads ativas
