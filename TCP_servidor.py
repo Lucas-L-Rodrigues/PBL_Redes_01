@@ -1,7 +1,54 @@
 import socket
 import threading
 import json
+import Rotas.py
+import Passagem.py
 
+
+def buscarObjeto(objeto, bancoDeDados):
+    # Carregar o banco de dados
+    # Se encontrado
+        # retornar True
+    # retornar False
+
+def carregarBancoDeDados (bancoDeDados):
+    # Abrir o arquivo como leitura
+        # retornar o banco de dados
+
+def comprarPassagem(usuario, rota):
+    # Buscar usuario
+    # Buscar rota
+    # Caso tenha numeroAssentos maior que 0
+        # diminuir em 1 o numeroAssentos
+        # Criar um novo objeto passagem com o usuario e pegando a rota
+        # Criar entrada no banco de passagens de um novo objeto 
+    # Caso o numeroAssentos seja menor que 1 
+        # mensagem de erro
+
+def reservarPassagem(usuario, rota):
+    # Buscar usuario
+    # Buscar rota
+    # Caso numeroAssentos maior que 0
+        # Diminuir em 1  numeroAssentos
+        # Criar um novo objeto Passagem com o atributo estaPago zerado
+    # Caso seja menor que 1
+        # mensagem de erro
+
+def pagarReserva (passagem):
+    # Buscar a passagem no banco de dados
+    # Caso a passagem seja encontrada no banco de dados
+        # Marcar estaPago como True
+    # Caso nao seja encontrada
+        # Mensagem de erro
+
+def cancelarCompra (passagem, rota):
+    # Buscar passagem
+    # Buscar rota
+    # Caso seja encontrada
+        # estaCancelado marcado como True
+        # numeroAssentos incrementa 1
+
+# NÃO USADA
 def carregarUsuarios():
     with open('usuarios.json', 'r') as f:
         return json.load(f)
@@ -32,9 +79,8 @@ def novoCliente(conn, addr, bancoDeUsuarios):
                 estaLogado = verificarLogin(credenciais, bancoDeUsuarios)
             
             if estaLogado:
-                #Aplicar aqui os algoritmos para fazer o funcionamento do serviço
-                print("\nresto das operações\n")
                 conn.sendall("Logado com sucesso".encode('utf-8'))
+                procedimento = menu(conn)
             else:
                 conn.sendall("Falha no login".encode('utf-8'))
     finally:
