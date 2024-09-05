@@ -32,6 +32,7 @@ def novoCliente(conn, addr, bancoDeUsuarios):
                 estaLogado = verificarLogin(credenciais, bancoDeUsuarios)
             
             if estaLogado:
+                #Aplicar aqui os algoritmos para fazer o funcionamento do serviço
                 print("\nresto das operações\n")
                 conn.sendall("Logado com sucesso".encode('utf-8'))
             else:
