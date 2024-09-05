@@ -32,7 +32,10 @@ def novoCliente(conn, addr, bancoDeUsuarios):
                 estaLogado = verificarLogin(credenciais, bancoDeUsuarios)
             
             if estaLogado:
-                printf(f'\nresto das operações\n')
+                print("\nresto das operações\n")
+                conn.sendall("Logado com sucesso".encode('utf-8'))
+            else:
+                conn.sendall("Falha no login".encode('utf-8'))
     finally:
         conn.close()             
 
@@ -70,7 +73,7 @@ while True:
 
     thread = threading.Thread(target=novoCliente, args=(con, cliente, bancoDeUsuarios))          # Criando uma nova thread para a conexao com "cliente"
     thread.start()                                                              # Iniciando a thread
-
+    
     print(f'Número de conexões ativas: {threading.active_count() - 1}')         # Mostra o número de threads ativas
 
 print("FIM")  # Esse print nao acontece na pratica, pois nao tem um break no while, mas caso no futuro apliquemos algo depois do fim da execucao.

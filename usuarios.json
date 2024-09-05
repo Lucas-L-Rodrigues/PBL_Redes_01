@@ -1,10 +1,4 @@
-[
-  {
-    "login":"usuario01",
-    "senha":"senha01"
-  },
-  {
-    "login":"usuario02",
-    "senha":"senha02"
-  }
-]
+{
+  "usuario01": "senha01",
+  "usuario02": "senha02"
+}
