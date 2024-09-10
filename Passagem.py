@@ -1,5 +1,5 @@
 #from dataclasses import dataclass
-from datetime import date
+from DateTime import date
 
 class Passagem:
     def __init__(self, dataCompra, reserva, cidadeSaida, cidadeChegada, poltrona, estaPago, estaCancelado):
@@ -7,7 +7,7 @@ class Passagem:
         self.reserva       = reserva
         self.cidadeSaida   = cidadeSaida
         self.cidadeChegada = cidadeChegada
-        self.poltrona      = poltrona
+        self.poltrona      = poltrona  # Retirar depois
         self.estaPago      = estaPago
         self.estaCancelado = estaCancelado
     
